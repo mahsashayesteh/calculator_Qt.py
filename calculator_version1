@@ -1,0 +1,159 @@
+import functools
+import sys
+from PySide6.QtWidgets import *
+from PySide6.QtCore import *
+from PySide6.QtGui import *
+
+app = QApplication(sys.argv)
+
+window = QWidget()
+
+window.setWindowTitle("Calculator")
+
+oper = ''
+
+
+def show(btn, shOutput):
+    global oper
+    try:
+        txtBtn = btn.text()
+        shOutput.setText(shOutput.text() + txtBtn)
+        oper = shOutput.text()
+    except:
+        print("something went wrong")
+        oper = ''
+
+
+def operation(shOutput):
+    global oper
+    try:
+        oper = str(eval(oper.text()))
+        shOutput.setText(oper)
+        oper = ''
+    except:
+        print("something went wrong")
+        oper = ''
+
+
+def delete(shOutput):
+    global oper
+    shOutput.setText('')
+    oper = ''
+
+
+def divideOneToNum(shOutput):
+    global oper
+    try:
+        print(oper)
+        print(type(oper))
+        oper = str('1/' + oper)
+        print(oper)
+        shOutput.setText(str(eval(oper)))
+        oper = ''
+    except:
+        print('Just Once')
+        oper = ''
+
+
+def toPowerTwo(shOutput):
+    global oper
+    oper = str(oper+'**2')
+    print(oper)
+    shOutput.setText(str(eval(oper)))
+    oper = ''
+
+
+def toPositiveOrminusInp(shOutput):
+    global oper
+    try:
+        print(oper[0])
+        if not oper[0] == '-':
+            oper = str('-' + oper)
+            shOutput.setText(oper)
+
+        elif oper[0] == '-':
+            oper = oper.removeprefix('-')
+            shOutput.setText(str(oper))
+
+    except:
+        oper = ''
+
+
+# - --------------------------------
+takeInp = QLineEdit()
+
+btnPowerTwo = QPushButton('PowerTwo')
+btnDivideOneToN = QPushButton('DivideOneToN')
+btnDivide = QPushButton('/')
+btnDelete = QPushButton('Delete')
+btnOne = QPushButton('1')
+btnTwo = QPushButton('2')
+btnThree = QPushButton('3')
+btnMinus = QPushButton('-')
+btnFour = QPushButton('4')
+btnFive = QPushButton('5')
+btnSix = QPushButton('6')
+btnPlus = QPushButton('+')
+btnSeven = QPushButton('7')
+btnEight = QPushButton('8')
+btnNine = QPushButton('9')
+btnMultiple = QPushButton('*')
+btnTurnToMinusOrPlus = QPushButton('+/-')
+btnZero = QPushButton('0')
+btnDot = QPushButton('.')
+btnEqual = QPushButton('=')
+
+lsBtn = [btnPowerTwo, btnDivideOneToN, btnDivide, btnDelete, btnOne, btnTwo, btnThree,
+         btnMinus, btnFour, btnFive, btnSix, btnPlus, btnSeven, btnEight, btnNine, btnMultiple,
+         btnTurnToMinusOrPlus, btnZero, btnDot, btnEqual]
+btnOne.clicked.connect(lambda e: show(btnOne, takeInp))
+btnTwo.clicked.connect(lambda e: show(btnTwo, takeInp))
+btnThree.clicked.connect(lambda e: show(btnThree, takeInp))
+btnFour.clicked.connect(lambda e: show(btnFour, takeInp))
+btnFive.clicked.connect(lambda e: show(btnFive, takeInp))
+btnSix.clicked.connect(lambda e: show(btnSix, takeInp))
+btnSeven.clicked.connect(lambda e: show(btnSeven, takeInp))
+btnEight.clicked.connect(lambda e: show(btnEight, takeInp))
+btnNine.clicked.connect(lambda e: show(btnNine, takeInp))
+btnPowerTwo.clicked.connect(lambda e: toPowerTwo(takeInp))
+btnDivide.clicked.connect(lambda e: show(btnDivide, takeInp))
+btnMultiple.clicked.connect(lambda e: show(btnMultiple, takeInp))
+btnMinus.clicked.connect(lambda e: show(btnMinus, takeInp))
+btnPlus.clicked.connect(lambda e: show(btnPlus, takeInp))
+btnZero.clicked.connect(lambda e: show(btnZero, takeInp))
+btnDot.clicked.connect(lambda e: show(btnDot, takeInp))
+btnEqual.clicked.connect(lambda e: operation(takeInp))
+btnDivideOneToN.clicked.connect(lambda e: divideOneToNum(takeInp))
+btnDelete.clicked.connect(lambda e: delete(takeInp))
+btnTurnToMinusOrPlus.clicked.connect(lambda e:toPositiveOrminusInp(takeInp))
+grid = QGridLayout()
+grid.setSpacing(10)
+
+grid.addWidget(takeInp, 2, 1, 2, 4)
+grid.addWidget(btnPowerTwo, 4, 1)
+grid.addWidget(btnDivideOneToN, 4, 2)
+grid.addWidget(btnDivide, 4, 3)
+grid.addWidget(btnDelete, 4, 4)
+grid.addWidget(btnOne, 5, 1)
+grid.addWidget(btnTwo, 5, 2)
+grid.addWidget(btnThree, 5, 3)
+grid.addWidget(btnPlus, 5, 4)
+grid.addWidget(btnFour, 6, 1)
+grid.addWidget(btnFive, 6, 2)
+grid.addWidget(btnSix, 6, 3)
+grid.addWidget(btnMinus, 6, 4)
+grid.addWidget(btnSeven, 7, 1)
+grid.addWidget(btnEight, 7, 2)
+grid.addWidget(btnNine, 7, 3)
+grid.addWidget(btnMultiple, 7, 4)
+grid.addWidget(btnTurnToMinusOrPlus, 8, 1)
+grid.addWidget(btnZero, 8, 2)
+grid.addWidget(btnDot, 8, 3)
+grid.addWidget(btnEqual, 8, 4)
+
+# --------------------------------------
+
+
+window.setLayout(grid)
+window.show()
+app.exec()
